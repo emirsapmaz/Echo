@@ -1,0 +1,336 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Create Group Page";
+    Layout = null;
+    var contacts = ViewBag.Contacts;
+    var iscreated = TempData["GroupCreated"]?? false;
+    var user = await userManager.GetUserAsync(User);
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Emir Sapmaz" />
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <style>
+        body {
+            overflow: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit,logout" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@user.FirstName @user.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div>
+        <div class="group-creation-container">
+            <form asp-controller="Group" asp-action="CreateGroup" method="post" enctype="multipart/form-data" id="createGroupForm">
+                <div class="group-info-section">
+                    <div class="group-photo-upload">
+                        <div class="group-photo-preview">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <label for="GroupPhoto" class="upload-btn">
+                            <i class="fa-solid fa-camera"></i> Upload Photo
+                        </label>
+                        <input type="file" id="GroupPhoto" name="GroupPhoto" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="group-name-input">
+                        <label for="GroupName">Group Name:</label>
+                        <input type="text" id="GroupName" name="GroupName" placeholder="Enter group name" class="addmembers">
+                    </div>
+                </div>
+
+                <div class="group-members-section">
+                    <h3>Add Members</h3>
+                    <div class="search-contacts">
+                        <input type="text" id="contact-search" placeholder="Search contacts..." class="addmembers">
+                        <button type="button" id="search-btn"><i class="fa-solid fa-search"></i></button>
+                    </div>
+
+                    <div class="contacts-list">
+                        <div class="loading-contacts">Loading your contacts...</div>
+                    </div>
+
+                    <div class="selected-members">
+                        <h3>Selected Members</h3>
+                        <div id="selected-members-list">
+                            <div class="no-members-message">No members selected yet</div>
+                        </div>
+                    </div>
+
+                    <div id="member-ids-container">
+                    </div>
+                </div>
+
+                <div class="create-group-actions">
+                    <button type="submit" id="create-group-btn" class="primary-btn">Create Group</button>
+                    <a asp-controller="Home" asp-action="Main" id="cancel-btn" class="secondary-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span style="cursor:pointer" class="close">&times;</span>
+            <div class="success-message">
+                <i class="fa-solid fa-check-circle"></i>
+                <p>Group created successfully!</p>
+            </div>
+            <a asp-controller="Home" asp-action="Main" id="goto-group-btn">Go to Group Chat</a>
+        </div>
+    </div>
+
+    <div id="error-modal" class="modal">
+        <div class="modal-content error-modal-content">
+            <div class="error-message">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                <p id="error-text">Error message will appear here</p>
+            </div>
+            <button id="error-ok-btn">OK</button>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Variables to store data
+        let selectedMembers = [];
+        let availableContacts = @Html.Raw(Json.Serialize(contacts));
+
+        // DOM Elements
+        const contactSearchInput = document.getElementById('contact-search');
+        const contactsList = document.querySelector('.contacts-list');
+        const selectedMembersList = document.getElementById('selected-members-list');
+        const memberIdsContainer = document.getElementById('member-ids-container');
+        const createGroupForm = document.getElementById('createGroupForm');
+        const photoInput = document.getElementById('GroupPhoto');
+        const photoPreview = document.querySelector('.group-photo-preview');
+        const groupNameInput = document.getElementById('GroupName');
+        const successModal = document.getElementById('success-modal');
+        const errorModal = document.getElementById('error-modal');
+        const errorText = document.getElementById('error-text');
+        const errorOkBtn = document.getElementById('error-ok-btn');
+
+        function showErrorModal(message) {
+            errorText.textContent = message;
+            errorModal.style.display = 'block';
+        }
+
+        errorOkBtn.addEventListener('click', function () {
+            errorModal.style.display = 'none';
+        });
+
+        var iscreated = '@iscreated'.toLowerCase(); //ensure false or true
+        if(iscreated === true) {
+            successModal.style.display = 'block';
+        }
+
+        // initialize contacts list
+        renderContacts(availableContacts);
+
+        photoInput.addEventListener('change', handlePhotoUpload);
+
+        contactSearchInput.addEventListener('input', function () {
+            renderContacts(availableContacts);
+        });
+
+        createGroupForm.addEventListener('submit', function (e) {
+            e.preventDefault(); 
+
+            const groupName = groupNameInput.value.trim();
+
+            if (!groupName) {
+                showErrorModal('Please enter a group name');
+                return;
+            }
+
+            if (selectedMembers.length === 0) {
+                showErrorModal('Please select at least one member for the group');
+                return;
+            }
+
+            updateMemberIdsInputs();
+
+            const formData = new FormData(createGroupForm); // collect all form inputs
+
+            fetch('/Group/CreateGroup', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    successModal.style.display = 'block';
+                } else {
+                    showErrorModal('Failed to create group.');
+                }
+            })
+            .catch(error => {
+                showErrorModal('Error: ' + error.message);
+            });
+        });
+
+
+        // update hidden inputs with selected member ids
+        function updateMemberIdsInputs() {
+            memberIdsContainer.innerHTML = '';
+            selectedMembers.forEach((member, index) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                    input.name = `members[${index}]`;
+                input.value = member.id;
+                memberIdsContainer.appendChild(input);
+            });
+        }
+
+        function renderContacts(contacts) {
+            if (contacts.length === 0) {
+                contactsList.innerHTML = '<div class="no-contacts-message">No contacts found. Add contacts first.</div>';
+                return;
+            }
+
+            const searchTerm = contactSearchInput.value.toLowerCase();
+            const filteredContacts = searchTerm ?
+                contacts.filter(contact => contact.name.toLowerCase().includes(searchTerm)) :
+                contacts;
+
+            contactsList.innerHTML = '';
+
+            filteredContacts.forEach(contact => {
+                if (selectedMembers.some(member => member.id === contact.id)) return;
+
+                const contactElement = document.createElement('div');
+                contactElement.className = 'contact-item';
+                contactElement.innerHTML = `
+                    <div class="contact-info">
+                        <img src="${contact.profilePicture || '/img/Default.jpg'}" alt="${contact.name}">
+                        <span>${contact.name}</span>
+                    </div>
+                    <button type="button" class="add-member-btn" data-id="${contact.id}" data-name="${contact.name}" data-pic="${contact.profilePicture || '/img/Default.jpg'}">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                `;
+                contactsList.appendChild(contactElement);
+            });
+
+            // member click handlers
+            document.querySelectorAll('.add-member-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    const pic = this.getAttribute('data-pic');
+                    addMember({ id, name, pic });
+                });
+            });
+        }
+
+        function addMember(member) {
+            if (!selectedMembers.some(m => m.id === member.id)) {
+                selectedMembers.push(member);
+                updateSelectedMembersList();
+                renderContacts(availableContacts);
+            }
+        }
+
+        function removeMember(memberId) {
+            selectedMembers = selectedMembers.filter(member => member.id !== memberId);
+            updateSelectedMembersList();
+            renderContacts(availableContacts);
+        }
+
+        function updateSelectedMembersList() {
+            if (selectedMembers.length === 0) {
+                selectedMembersList.innerHTML = '<div class="no-members-message">No members selected yet</div>';
+                return;
+            }
+
+            selectedMembersList.innerHTML = '';
+
+            selectedMembers.forEach(member => {
+                const memberElement = document.createElement('div');
+                memberElement.className = 'selected-member';
+                memberElement.innerHTML = `
+                    <div class="member-info">
+                        <img src="${member.pic || '/img/Default.jpg'}" alt="${member.name}">
+                        <span>${member.name}</span>
+                    </div>
+                    <button type="button" class="remove-member-btn" data-id="${member.id}">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                `;
+                selectedMembersList.appendChild(memberElement);
+            });
+
+            document.querySelectorAll('.remove-member-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    removeMember(id);
+                });
+            });
+        }
+
+        function handlePhotoUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    photoPreview.innerHTML = `<img src="${e.target.result}" alt="Group Photo">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

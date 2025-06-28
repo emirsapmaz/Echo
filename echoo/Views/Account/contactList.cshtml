@@ -1,0 +1,124 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using echoo.Models
+@model IEnumerable<echoo.Models.User>
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Contact Page";
+    Layout = null;
+    var userr = await userManager.GetUserAsync(User);
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit,forum,logout" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@userr.FirstName @userr.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flexx">
+        <h1>Contact List</h1>
+
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search by user name" onkeyup="searchUser()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <div class="userList">
+            @if(Model.Any()){
+            foreach (var user in Model)
+            {
+
+                <div class="user">
+                    <div style="display: flex; align-items: center;">
+                        <div class="picture">
+                            <img src="@(string.IsNullOrEmpty(user.ProfilePicturePath) || user.ProfilePicturePath == "/img/Default.jpg" ? "/img/Default.jpg" : user.ProfilePicturePath)" alt="Profile Picture" />
+                        </div>
+                            <div class="username">
+                                <a asp-controller="Account" asp-action="GetProfile" asp-route-toUserId="@user.Id">@user.FirstName @user.LastName</a>
+                            </div>
+                    </div>
+                    <form method="post" asp-action="OpenChat" asp-controller="Chat">
+                        <input type="hidden" name="toUserId" value="@user.Id" />
+                        <button type="submit" class="material-symbols-outlined forum">
+                            forum
+                        </button>
+                    </form>
+                </div>
+            }
+            }else{
+                <p style="margin:20px 0px; text-align:center">
+                    There are no contacts yet!<a asp-action="AddContactPage" asp-controller="Account">
+                        <span style="text-decoration:underline; font-weight:bold;font-size:1.1rem" >Add Contact</span>
+                    </a>
+                </p>
+            }
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+    <script>
+    function searchUser() {//filtering users
+        const searchTerm = document.getElementById("search").value.toLowerCase();
+
+        const users = document.querySelectorAll(".user");
+
+        users.forEach(user => {
+            const username = user.querySelector(".username a").innerText.toLowerCase();
+
+            if (username.includes(searchTerm)) {
+                user.style.display = "";  // show the user if the username matches the search term
+            } else {
+                user.style.display = "none";  // hide the user if the username doesn't match
+            }
+        });
+    }
+    </script>

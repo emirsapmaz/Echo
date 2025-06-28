@@ -1,0 +1,954 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using echoo.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> userManager
+@model IEnumerable<echoo.ViewModel.ChatListViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+    var currentUserId = userManager.GetUserId(User);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=attach_file,groups,logout,mic,send" />
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@ViewBag.User</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section class="chat-section">
+        <div class="users">
+            <ul>
+                <li>
+                    <div class="icons">
+                        <a asp-action="AddContactPage" asp-controller="Account">
+                            <i class="fa-regular fa-square-plus"></i>
+                            <span>Add Contact</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="icons">
+                        <a asp-action="CreateGroup" asp-controller="Group">
+                            <i class="material-symbols-outlined gicon ">groups</i>
+                            <span>Create Group</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search by user name" onkeyup="searchUser()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <div class="userList h-fix" id="userList">
+                @foreach (var chat in Model)
+                {
+                    if (!chat.IsGroup)
+                    {
+                        <div class="user">
+                            <div class="picture">
+                                <img src="@((string.IsNullOrEmpty(chat.User.ProfilePicturePath) || chat.User.ProfilePicturePath == "/img/Default.jpg") ? "/img/Default.jpg" : chat.User.ProfilePicturePath)" alt="Profile Picture">
+                            </div>
+                            <div class="username">
+                                <a href="javascript:void(0);" onclick="loadChat('@chat.User.Id', '@chat.User.FirstName @chat.User.LastName', '@chat.User.ProfilePicturePath')">
+                                    @chat.User.FirstName @chat.User.LastName
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="user">
+                            <div class="picture">
+                                <img src="@(!string.IsNullOrEmpty(chat.Group.PhotoPath) ? chat.Group.PhotoPath : "/img/Default-group.png")" alt="Group Picture">
+                            </div>
+                            <div class="username">
+                                <a href="javascript:void(0);" onclick="loadGroupChat('@chat.Group.Id', '@chat.Group.Name', '@chat.Group.PhotoPath')">
+                                    @chat.Group.Name
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+
+        </div>
+
+        <div class="chat ">
+            <header>
+                <div class="picture">
+                    <img src="/img/logo.png" alt=""></img>
+                </div>
+                <div class="username">
+                    <p>Echo</p>
+                </div>
+            </header>
+            <hr style="border: 1px solid black;">
+            <div class="realchat" id="chatMessages">
+                <div class="message sent">
+                    <p>Oh i love Echo! </p>
+                    <div class="timestamp">10:12 AM</div>
+                </div>
+
+                <div class="message received">
+                    <p>Me too! <3 </p>
+                    <div class="timestamp">
+                        10:13 AM
+                        <div class="star"><i style="padding-left: 10px;" class="fa-regular fa-star "></i></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="sendchat" id="SendChatArea" style="display:none;">
+                <div class="search-container">
+                    <input class="send" type="text" id="messageInput" autofocus placeholder="Send a message">
+                    <i id="ok" style="color: black;" onclick="sendMessage()" class="material-symbols-outlined">send</i>
+                </div>
+                <input type="file" id="fileInput" style="display: none;" accept="image/*,.pdf,.doc,.docx,.xlsx,.xls,.txt">
+                <a href="javascript:void(0);" style="color: black;" class="material-symbols-outlined ok2" id="fileUploadButton">
+                    attach_file
+                </a>
+                <a href="javascript:void(0);" style="color: black;" class="material-symbols-outlined ok3" id="ok3">
+                    mic
+                </a>
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+    <div id="imageViewer" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;">
+        <span onclick="closeImageViewer()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer;">&times;</span>
+        <img id="viewerImage" style="max-width: 90%; max-height: 90%;" src="" alt="Full size image">
+    </div>
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span style="cursor:pointer" id="closeBtn" class="close">&times;</span>
+            <div class="success-message">
+                <i class="fa-solid fa-check-circle"></i>
+                <p id="popupMessage"></p>
+            </div>
+            <button id="goto-group-btn">Continue</button>
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    // store current user id make it accessible in js
+    // global variables
+    const currentUserId = "@currentUserId";
+    let selectedGroupId = null; 
+
+    let currentToUserId = null;
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chatHub")
+        .build();
+
+    // start the connection
+    connection.start()
+        .then(function () {
+            console.log("Connection established");
+        })
+        .catch(function (err) {
+            console.error("Connection failed: " + err.toString());
+        });
+
+    // handle text messages from SignalR
+    connection.on("Messages", function (chat) {
+    if (currentToUserId && (chat.userId === currentToUserId || chat.toUserId === currentToUserId)) {
+        appendChatMessage(chat);
+        scrollToBottom();
+    }
+    });
+
+    connection.on("FileMessages", function (fileMessage) {
+    if (currentToUserId && (fileMessage.userId === currentToUserId || fileMessage.toUserId === currentToUserId)) {
+        appendFileMessage(fileMessage);
+        scrollToBottom();
+    }
+    });
+
+        connection.on("GroupFileMessages", (fileMessage) => {
+        appendGroupFileMessage(fileMessage);
+        scrollToBottom();
+    });
+
+    connection.on("GroupMessages", function (groupMessage) {
+        appendGroupChatMessage(groupMessage);
+        scrollToBottom();
+    });
+
+    // function to update active users 
+    connection.on("UpdateActiveUsers", function (chats) {
+        const userListDiv = document.getElementById("userList");
+        userListDiv.innerHTML = '';
+
+        chats.forEach(chat => {
+            const chatDiv = document.createElement("div");
+            chatDiv.classList.add("user");
+
+            if (chat.isGroup) {//if group
+                const group = chat.group;
+
+                if (window.selectedGroupId === group.id) {
+                    chatDiv.classList.add("active");
+                }
+
+                const pictureDiv = document.createElement("div");
+                pictureDiv.classList.add("picture");
+
+                const groupImage = document.createElement("img");
+                groupImage.src = group.photoPath || "/img/Default-group.png";
+                groupImage.alt = "Group Picture";
+
+                pictureDiv.appendChild(groupImage);
+
+                const groupNameDiv = document.createElement("div");
+                groupNameDiv.classList.add("username");
+
+                const groupNameLink = document.createElement("a");
+                groupNameLink.href = "javascript:void(0);";
+                groupNameLink.innerHTML = group.name;
+                groupNameLink.onclick = function() {
+                    loadGroupChat(group.id, group.name, group.photoPath);
+                };
+
+                groupNameDiv.appendChild(groupNameLink);
+                chatDiv.appendChild(pictureDiv);
+                chatDiv.appendChild(groupNameDiv);
+            } else {//if p2p chat
+                const user = chat.user;
+
+                if (user.id === currentToUserId) {
+                    chatDiv.classList.add("active");
+                }
+
+                const pictureDiv = document.createElement("div");
+                pictureDiv.classList.add("picture");
+
+                const userImage = document.createElement("img");
+                userImage.src = user.profilePicturePath || "/img/Default.jpg";
+                userImage.alt = "Profile Picture";
+
+                pictureDiv.appendChild(userImage);
+
+                const usernameDiv = document.createElement("div");
+                usernameDiv.classList.add("username");
+
+                const usernameLink = document.createElement("a");
+                usernameLink.href = "javascript:void(0);";
+                usernameLink.innerHTML = `${user.firstName} ${user.lastName}`;
+                usernameLink.onclick = function() {
+                    loadChat(user.id, user.firstName + " " + user.lastName, user.profilePicturePath);
+                };
+
+                usernameDiv.appendChild(usernameLink);
+                chatDiv.appendChild(pictureDiv);
+                chatDiv.appendChild(usernameDiv);
+            }
+
+            userListDiv.appendChild(chatDiv);
+        });
+    });
+
+    function loadChat(toUserId, userName, userProfilePicture) {
+            if (Number(window.selectedGroupId)) {
+        connection.invoke("LeaveGroup", Number(window.selectedGroupId))
+            .catch(function (err) {
+                console.error("Error leaving group:", err.toString());
+            });
+        window.selectedGroupId = null;
+    }
+        currentToUserId = toUserId;
+
+        const messageInput = document.getElementById("messageInput");
+        messageInput.focus();
+        messageInput.value = "";
+
+        const chatHeader = document.querySelector('.chat header .username');
+        const chatPicture = document.querySelector('.chat header .picture img');
+        chatHeader.innerHTML = `<a href="/Chat/ChatDetails?toUserId=${toUserId}">${userName}</a>`;
+        chatPicture.src = userProfilePicture || "/img/Default.jpg";
+
+        document.querySelectorAll(".user").forEach(userDiv => {
+            userDiv.classList.remove("active");
+        });
+        const clickedUser = event ? event.currentTarget.closest(".user") : null;
+        if (clickedUser) {
+            clickedUser.classList.add("active");
+        }
+
+        window.selectedToUserId = toUserId;
+
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        chatMessagesDiv.innerHTML = "";
+
+        const loadingIndicator = document.createElement("div");
+        loadingIndicator.id = "chat-loading";
+        loadingIndicator.style.textAlign = "center";
+        loadingIndicator.style.padding = "10px";
+        loadingIndicator.innerHTML = "Loading messages...";
+        chatMessagesDiv.appendChild(loadingIndicator);
+
+        //load  messages chronologically
+        Promise.all([
+            fetch(`/Chat/GetChatHistory?userId=${toUserId}`).then(response => response.json()),
+            fetch(`/Chat/GetFileMessageHistory?userId=${toUserId}`).then(response => response.json())
+        ])
+        .then(([chatMessages, fileMessages]) => {
+            const loadingElement = document.getElementById("chat-loading");
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+
+            // combine messages into one array
+            const allMessages = [
+                ...chatMessages.map(msg => ({ ...msg, type: 'text' })),
+                ...fileMessages.map(msg => ({ ...msg, type: 'file' }))
+            ];
+
+            allMessages.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            allMessages.forEach(message => {
+                if (message.type === 'text') {
+                    appendChatMessage(message);
+                } else {
+                    appendFileMessage(message);
+                }
+            });
+
+            // scroll to bottom 
+            setTimeout(() => {
+                scrollToBottom();
+            }, 300);
+        })
+        .catch(error => {
+            console.error("Error loading messages:", error);
+
+            const loadingElement = document.getElementById("chat-loading");
+            if (loadingElement) {
+                loadingElement.innerHTML = "Error loading messages. Please try again.";
+            }
+        });
+
+        document.getElementById("SendChatArea").style.display = "flex";
+    }
+
+    function appendChatMessage(chat) {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        const newMessage = document.createElement("div");
+        newMessage.classList.add("message");
+        newMessage.classList.add(chat.userId === currentUserId ? "sent" : "received");
+
+        const formattedTime = new Date(chat.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        newMessage.innerHTML = `<p>${chat.message}</p>
+            <div class="timestamp">
+                ${formattedTime}
+            <div class="star" onclick="starMessage('${chat.id}', this)" style="opacity: ${chat.isStarred ? "1" : "0"};">
+                <i class="fa-${chat.isStarred ? "solid" : "regular"} fa-star" style="padding-left: 10px; color: ${chat.isStarred ? "gold" : ""};"></i>
+            </div>
+        </div>`;
+
+        chatMessagesDiv.appendChild(newMessage);
+    }
+
+    function appendFileMessage(fileMessage) {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        const newMessage = document.createElement("div");
+
+        newMessage.classList.add("message");
+        newMessage.classList.add(fileMessage.userId === currentUserId ? "sent" : "received");
+
+        const formattedTime = new Date(fileMessage.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        let messageContent = "";
+
+        if (fileMessage.fileType === "Image") {
+            messageContent = `<div class="image-container">
+                <img src="${fileMessage.filePath}" alt="${fileMessage.fileName}" class="chat-image"
+                     onclick="openImageViewer('${fileMessage.filePath}')"
+                     loading="lazy">
+            </div>`;
+        } else {
+            messageContent = `<div class="document-container">
+                <a href="${fileMessage.filePath}" target="_blank" class="document-link">
+                    <i class="fa-solid fa-file-lines document-icon"></i>
+                    <div class="file-name">${fileMessage.fileName}</div>
+                </a>
+            </div>`;
+        }
+
+        newMessage.innerHTML = `${messageContent}
+            <div class="timestamp">
+                ${formattedTime}
+                <div class="star" onclick="starFileMessage('${fileMessage.id}', this)" style="opacity: ${fileMessage.isStarred ? "1" : "0"};">
+                    <i class="fa-${fileMessage.isStarred ? "solid" : "regular"} fa-star" style="padding-left: 10px; color: ${fileMessage.isStarred ? "gold" : ""};"></i>
+                </div>
+            </div>`;
+
+        chatMessagesDiv.appendChild(newMessage);
+    }
+
+    function sendMessage() {
+        const notificationSound = new Audio('/sounds/sound.mp3');
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value;
+
+        // check a group chat or direct chat
+        if (window.selectedGroupId) {
+            if (message.trim() !== "") {
+                connection.invoke("SendGroupMessage", window.selectedGroupId, message)
+                    .catch(function (err) {
+                        return console.error("Error sending group message:", err.toString());
+                    });
+
+                notificationSound.play().catch(function(error) {
+                    console.log("Audio play error:", error);
+                });
+
+                messageInput.value = "";
+            }
+        } else {
+            // direct user message 
+            const toUserId = window.selectedToUserId;
+
+            if (message.trim() !== "" && toUserId) {
+                connection.invoke("SendMessage", toUserId, message)
+                    .catch(function (err) {
+                        return console.error(err.toString());
+                    });
+                 stopRecording();
+
+                notificationSound.play().catch(function(error) {
+                    console.log("Audio play error:", error);
+                });
+
+                messageInput.value = "";
+            }
+        }
+    }
+
+    function scrollToBottom() {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+
+        chatMessagesDiv.scrollTo({
+            top: chatMessagesDiv.scrollHeight,
+            behavior: "smooth" 
+        });
+
+        const images = chatMessagesDiv.querySelectorAll('img.chat-image');
+
+        if (images.length > 0) {
+            let imagesLoaded = 0;
+            let forceScrollTimeout = setTimeout(() => {
+                chatMessagesDiv.scrollTo({
+                    top: chatMessagesDiv.scrollHeight,
+                    behavior: "smooth"
+                });
+            }, 1000);//1s
+
+            const imageLoadHandler = () => {
+                imagesLoaded++;
+                if (imagesLoaded === images.length) {
+                    clearTimeout(forceScrollTimeout);
+                    setTimeout(() => {
+                        chatMessagesDiv.scrollTo({
+                            top: chatMessagesDiv.scrollHeight,
+                            behavior: "smooth"
+                        });
+                    }, 50);
+                }
+            };
+
+            images.forEach(img => {
+                if (img.complete) {
+                    imageLoadHandler();
+                } else {
+                    img.addEventListener('load', imageLoadHandler);
+                    img.addEventListener('error', imageLoadHandler);
+                }
+            });
+        }
+
+        setTimeout(() => {
+            chatMessagesDiv.scrollTo({
+                top: chatMessagesDiv.scrollHeight,
+                behavior: "smooth"
+            });
+        }, 1500);
+    }
+
+    function starMessage(chatId, starElement) {
+        const icon = starElement.querySelector("i");
+        fetch(`/Chat/ToggleStarMessage?messageId=${chatId}`)
+        .then(response => {
+            if (response.ok) {
+                icon.classList.toggle("fa-solid");
+                icon.classList.toggle("fa-regular");
+                if (icon.classList.contains("fa-solid")) {
+                    icon.style.color = "gold";
+                    starElement.style.opacity =1;
+
+                } else {
+                    icon.style.color = "";
+                    starElement.style.opacity =0;
+
+                }
+
+            } else {
+                console.error('Failed to toggle star');
+            }
+        })
+        .catch(error => console.error('Error toggling star:', error));
+    }
+
+    function starFileMessage(fileMessageId, starElement) {
+        const icon = starElement.querySelector("i");
+
+        fetch(`/Chat/ToggleStarFileMessage?messageId=${fileMessageId}`)
+        .then(response => {
+            if (response.ok) {
+                icon.classList.toggle("fa-solid");
+                icon.classList.toggle("fa-regular");
+                if (icon.classList.contains("fa-solid")) {
+                    icon.style.color = "gold";
+                  starElement.style.opacity =1;
+                } else {
+                    icon.style.color = "";
+                    starElement.style.opacity = 0;
+                }
+            } else {
+                console.error('Failed to toggle star on file message');
+            }
+        })
+        .catch(error => console.error('Error toggling star on file message:', error));
+    }
+
+    function searchUser() {
+        const searchTerm = document.getElementById("search").value.toLowerCase();
+        const users = document.querySelectorAll(".user");
+
+        users.forEach(user => {
+            const username = user.querySelector(".username a").innerText.toLowerCase();
+            if (username.includes(searchTerm)) {
+                user.style.display = "";
+            } else {
+                user.style.display = "none";
+            }
+        });
+    }
+
+    document.getElementById("fileUploadButton").addEventListener("click", function() {
+        document.getElementById("fileInput").click();
+    });
+
+    document.getElementById("fileInput").addEventListener("change", function() {
+        if (this.files.length > 0) {
+            uploadFile(this.files[0]);
+        }
+    });
+
+    function uploadFile(file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        if (window.selectedGroupId) {
+            // Group chat
+            formData.append("groupId", window.selectedGroupId);
+        } else {
+            // Direct chat
+            const toUserId = window.selectedToUserId;
+            formData.append("toUserId", toUserId);
+        }
+
+        const notificationSound = new Audio('/sounds/sound.mp3');
+
+        fetch("/Chat/UploadFile", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to upload file");
+            } else {
+                notificationSound.play().catch(function(error) {
+                    console.log("Audio play error:", error);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.groupId) {
+                // group chat file message
+                connection.invoke("SendGroupFileMessage", data.id)
+                    .catch(function(err) {
+                        console.error(err.toString());
+                    });
+            } else {
+                // direct chat file message
+                connection.invoke("SendFileMessage", data.id)
+                    .catch(function(err) {
+                        console.error(err.toString());
+                    });
+            }
+        })
+        .catch(error => {
+            console.error("Error uploading file:", error);
+            alert("An error occurred while uploading the file.");
+        });
+    }
+
+    function openImageViewer(imagePath) {
+        const imageViewer = document.getElementById("imageViewer");
+        const viewerImage = document.getElementById("viewerImage");
+
+        viewerImage.src = imagePath;
+        imageViewer.style.display = "flex";
+    }
+
+    function closeImageViewer() {
+        document.getElementById("imageViewer").style.display = "none";
+    }
+    document.getElementById("messageInput").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+    //GROUP FUNCTIONS
+    //GROUP FUNCTIONS
+    //GROUP FUNCTIONS
+    function loadGroupChat(groupId, groupName, groupPhoto) {
+        currentToUserId = null; // clear individual chat state
+        window.selectedGroupId = Number(groupId); // store group ID globally, we use Number() to convert string to int
+        connection.invoke("JoinGroup", window.selectedGroupId)
+        .catch(function (err) {
+            console.error("Error joining group:", err.toString());
+        });
+        const messageInput = document.getElementById("messageInput");
+        messageInput.focus();
+        messageInput.value = "";
+
+        const chatHeader = document.querySelector('.chat header .username');
+        const chatPicture = document.querySelector('.chat header .picture img');
+        chatHeader.innerHTML = `<a href="/Group/GroupDetails?groupId=${groupId}">${groupName}</a>`;
+        chatPicture.src = groupPhoto || "/img/Default-group.png";
+
+        document.querySelectorAll(".user").forEach(userDiv => {
+            userDiv.classList.remove("active");
+        });
+        const clickedUser = event ? event.currentTarget.closest(".user") : null;
+        if (clickedUser) {
+            clickedUser.classList.add("active");
+        }
+
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        chatMessagesDiv.innerHTML = "";
+
+        const loadingIndicator = document.createElement("div");
+        loadingIndicator.id = "chat-loading";
+        loadingIndicator.style.textAlign = "center";
+        loadingIndicator.style.padding = "10px";
+        loadingIndicator.innerHTML = "Loading messages...";
+        chatMessagesDiv.appendChild(loadingIndicator);
+
+        Promise.all([
+            fetch(`/Group/GetGroupMessages?groupId=${groupId}`).then(res => res.json()),
+            fetch(`/Group/GetGroupFileMessages?groupId=${groupId}`).then(res => res.json())
+        ])
+        .then(([chatMessages, fileMessages]) => {
+            const loadingElement = document.getElementById("chat-loading");
+            if (loadingElement) loadingElement.remove();
+
+            const allMessages = [
+                ...chatMessages.map(msg => ({ ...msg, type: 'text' })),
+                ...fileMessages.map(msg => ({ ...msg, type: 'file' }))
+            ];
+
+            allMessages.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            allMessages.forEach(message => {
+                if (message.type === 'text') {
+                    appendGroupChatMessage(message);
+                } else {
+                    appendGroupFileMessage(message);
+                }
+            });
+
+            setTimeout(() => scrollToBottom(), 300);
+        })
+        .catch(err => {
+            console.error("Error loading group messages:", err);
+            const loadingElement = document.getElementById("chat-loading");
+            if (loadingElement) {
+                loadingElement.innerHTML = "Error loading group messages. Please try again.";
+            }
+        });
+
+        document.getElementById("SendChatArea").style.display = "flex";
+    }
+
+     function appendGroupChatMessage(message) {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("message");
+        msgDiv.classList.add(message.userId === currentUserId ? "sent" : "received");
+
+        const profilePic = message.senderProfilePicture || "/img/Default.jpg";
+        const name = message.senderName || "Unknown";
+        const formattedTime = new Date(message.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    msgDiv.innerHTML = `
+            <div class="text-content">
+                <div class="profile">
+                    <img src="${profilePic}" alt="Sender">
+                    <div class="sender-name">${name}</div>
+                </div>
+                <p>${message.message}</p>
+            </div>
+            <div class="timestamp">
+                ${formattedTime}
+                <div class="star" onclick="starMessage('${message.id}', this)" style="opacity: ${message.isStarred ? "1" : "0"};">
+                    <i class="fa-${message.isStarred ? "solid" : "regular"} fa-star" style="padding-left: 10px; color: ${message.isStarred ? "gold" : ""};"></i>
+                </div>
+            </div>
+        `;
+
+        chatMessagesDiv.appendChild(msgDiv);
+    }
+
+    function appendGroupFileMessage(fileMessage) {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        const newMessage = document.createElement("div");
+        newMessage.classList.add("message");
+        newMessage.classList.add(fileMessage.userId === currentUserId ? "sent" : "received");
+
+        const profilePic = fileMessage.senderProfilePicture || "/img/Default.jpg";
+        const formattedTime = new Date(fileMessage.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        let messageContent = "";
+        if (fileMessage.fileType === "Image") {
+            messageContent = `
+                <div class="profile">
+                    <img src="${profilePic}" alt="Sender">
+                    <div class="sender-name">${fileMessage.senderName || "Unknown"}</div>
+                </div>
+                <div class="image-container">
+                    <img src="${fileMessage.filePath}" alt="${fileMessage.fileName}" class="chat-image"
+                         onclick="openImageViewer('${fileMessage.filePath}')"
+                         loading="lazy">
+                </div>`;
+        } else {
+            messageContent = `
+                <div class="profile">
+                    <img src="${profilePic}" alt="Sender">
+                    <div class="sender-name">${fileMessage.senderName || "Unknown"}</div>
+                </div>
+                <div class="document-container">
+                    <a href="${fileMessage.filePath}" target="_blank" class="document-link">
+                        <i class="fa-solid fa-file-lines document-icon"></i>
+                        <div class="file-name">${fileMessage.fileName}</div>
+                    </a>
+                </div>`;
+        }
+
+        newMessage.innerHTML = `
+            ${messageContent}
+            <div class="timestamp">
+                ${formattedTime}
+                <div class="star" onclick="starFileMessage('${fileMessage.id}', this)" style="opacity: ${fileMessage.isStarred ? "1" : "0"};">
+                    <i class="fa-${fileMessage.isStarred ? "solid" : "regular"} fa-star" style="padding-left: 10px; color: ${fileMessage.isStarred ? "gold" : ""};"></i>
+                </div>
+            </div>
+        `;
+
+        chatMessagesDiv.appendChild(newMessage);
+    }
+    //functions for speech services
+    //functions for speech services
+    //functions for speech services
+    let recognizer;
+    let isRecording = false;
+
+    async function initializeSpeechRecognizer() {
+        try {
+            // get token from backend
+            const response = await fetch('/Speech/GetSpeechToken');
+            const data = await response.json();
+
+            const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+                data.subscriptionKey,
+                data.region
+            );
+            speechConfig.speechRecognitionLanguage = 'en-US'; 
+
+            const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+
+            recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+            recognizer.recognized = (s, e) => {
+                if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+                    const transcript = e.result.text;
+                    if (transcript) {
+                        document.getElementById('messageInput').value = transcript;
+                    }
+                }
+            };
+
+            recognizer.canceled = (s, e) => {
+                console.log(`CANCELED: Reason=${e.reason}`);
+                stopRecording();
+            };
+
+            recognizer.sessionStopped = (s, e) => {
+                console.log("Session stopped");
+                stopRecording();
+            };
+
+            return true;
+        } catch (error) {
+            console.error("Error initializing speech recognizer:", error);
+            return false;
+        }
+    }
+
+    async function toggleRecording() {
+        if (!recognizer) {
+            const initialized = await initializeSpeechRecognizer();
+            if (!initialized) {
+                alert("Could not initialize speech recognition. Please try again.");
+                return;
+            }
+        }
+
+        if (!isRecording) {
+            // start recording
+            isRecording = true;
+            document.getElementById('ok3').classList.add('recording');
+            document.getElementById('messageInput').placeholder = "Listening...";
+
+            recognizer.startContinuousRecognitionAsync(
+                () => console.log("Recognition started"),
+                (error) => {
+                    console.error("Error starting recognition:", error);
+                    stopRecording();
+                }
+            );
+        } else {
+            // stop recording
+            stopRecording();
+        }
+    }
+
+    function stopRecording() {
+        if (recognizer && isRecording) {
+            recognizer.stopContinuousRecognitionAsync(
+                () => console.log("Recognition stopped"),
+                (error) => console.error("Error stopping recognition:", error)
+            );
+
+            isRecording = false;
+            document.getElementById('ok3').classList.remove('recording');
+            document.getElementById('messageInput').placeholder = "Send a message";
+        }
+    }
+
+    // Update the microphone button click handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const micButton = document.getElementById('ok3');
+        if (micButton) {
+            micButton.onclick = function(e) {
+                e.preventDefault();
+                toggleRecording();
+            };
+        }
+    });
+
+
+
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("registerModal");
+        const closeBtn = document.getElementById("closeBtn");
+        const popupMessage = document.getElementById("popupMessage");
+
+        // check if there is a message to display
+        const message = "@TempData["Message"]";
+        if (message && message !== "") {
+            popupMessage.textContent = message;
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+                const gotoGroupBtn = document.getElementById('goto-group-btn');
+        gotoGroupBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    });
+</script>

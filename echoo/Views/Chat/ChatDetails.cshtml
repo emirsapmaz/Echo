@@ -1,0 +1,218 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using echoo.Models
+@using echoo.ViewModel
+@inject UserManager<User> userManager
+@{
+    ViewData["Title"] = "Chat Details Page";
+    Layout = null;
+    var user = await userManager.GetUserAsync(User);
+
+}
+@model UserViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle,edit,logout" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <style>
+        #viewerImage {
+            max-width: 90%;
+            max-height: 90%;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+
+            #viewerImage.fade-out {
+                opacity: 0;
+            }
+    </style>
+
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@user.FirstName @user.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="chatterwrapper">
+        <div class="leftwrap">
+            <div class="about">
+                    <img src="@((string.IsNullOrEmpty(@Model.ProfilePicturePath) || @Model.ProfilePicturePath == "/img/Default.jpg") ? "/img/Default.jpg" : @Model.ProfilePicturePath)" alt="Profile Picture">
+                    <h1>@Model.FirstName @Model.LastName</h1>
+            </div>
+            <div class="about2">
+                <p>About</p>
+                <hr style="border: 1px solid black; width: 20vw;">
+                <p style="font-size: 1.2rem;">@Model.About</p>
+            </div>
+        </div>
+        <div class="rightwrap">
+            <div class="about3">
+
+                <div class="star-section">
+                    <i class="fa-regular fa-star"></i>
+                    <a asp-action="StarredMessages" asp-controller="Chat" asp-route-ToUserId="@Model.Id">Starred Messages   <b style="font-size: 1.3rem; margin-left: 20px;">   ></b> </a>
+
+                </div>
+                <div class="photo-section">
+                    <i class="fa-regular fa-file-image"></i>
+                    <p>Photos and Documents</p>
+                </div>
+                <div class="documents">
+                            @if (ViewBag.FileMessages != null)
+                            {
+                                foreach (var file in (List<FileMessage>)ViewBag.FileMessages)
+                                {
+                                    if (file.FileType == FileType.Image)
+                                    {
+                                        <div class="kare">
+                                            <img src="@file.FilePath" alt="@file.FileName" loading="lazy" onclick="openImageViewer('@file.FilePath')" />
+                                        </div>
+                                    }
+                                }
+                            }
+
+                        @if (ViewBag.FileMessages != null)
+                        {
+                            foreach (var file in (List<FileMessage>)ViewBag.FileMessages)
+                            {
+                                if (file.FileType == FileType.Document)
+                                {
+                                    <div class="kare">
+                                        <i class="fa-solid fa-file-lines"></i>
+                                        <a href="@file.FilePath" target="_blank">@file.FileName</a>
+                                    </div>
+                                }
+                            }
+                        }
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+    <div id="imageViewer" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;">
+        <span onclick="closeImageViewer()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer;">&times;</span>
+        <button onclick="prevImage()" style="position: absolute; left: 20px; font-size: 40px; background: none; border: none; color: white; cursor: pointer;">&#10094;</button>
+        <img id="viewerImage" style="max-width: 90%; max-height: 90%;" src="" alt="Full size image">
+        <button onclick="nextImage()" style="position: absolute; right: 20px; font-size: 40px; background: none; border: none; color: white; cursor: pointer;">&#10095;</button>
+    </div>
+
+
+</body>
+</html>
+<script>
+        // image viewer functions
+    function openImageViewer(imagePath) {
+        const imageViewer = document.getElementById("imageViewer");
+        const viewerImage = document.getElementById("viewerImage");
+
+        viewerImage.src = imagePath;
+        imageViewer.style.display = "flex";
+    }
+
+    function closeImageViewer() {
+        document.getElementById("imageViewer").style.display = "none";
+    }
+</script>
+
+<script>
+    const imagePaths = []; // populated below
+    let currentIndex = 0;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".documents .kare img");
+        images.forEach((img, index) => {
+            imagePaths.push(img.src);
+            img.addEventListener("click", () => openImageViewer(index));
+        });
+    });
+
+    function openImageViewer(index) {
+        currentIndex = index;
+        const viewer = document.getElementById("imageViewer");
+        const viewerImage = document.getElementById("viewerImage");
+
+        viewerImage.src = imagePaths[currentIndex];
+        viewer.style.display = "flex";
+    }
+
+    function closeImageViewer() {
+        document.getElementById("imageViewer").style.display = "none";
+    }
+    function showImage(index) {
+        const viewerImage = document.getElementById("viewerImage");
+
+        viewerImage.classList.add("fade-out");
+        setTimeout(() => {
+            viewerImage.src = imagePaths[index];
+            viewerImage.classList.remove("fade-out");
+        }, 200); 
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % imagePaths.length;
+        showImage(currentIndex);
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+        showImage(currentIndex);
+    }
+
+        document.addEventListener('keydown', (e) => {
+        if (document.getElementById("imageViewer").style.display === "flex") {
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'Escape') closeImageViewer();
+        }
+    });
+</script>

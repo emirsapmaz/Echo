@@ -1,0 +1,145 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using echoo.Models
+@model List<StarredItemViewModel>
+@using System.Security.Claims
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Starred Messages Page";
+    Layout = null;
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var user = await userManager.GetUserAsync(User);
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit,logout" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@user.FirstName @user.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div >
+        <div class="star-section">
+            <i class="fa-regular fa-star"></i>
+            <p>Starred Messages </p>
+        </div>
+        <div class="realchat">
+            @foreach (var message in Model)
+            {
+                <div class="message @(message.UserId == currentUserId ? "sent" : "received")">
+                    @if (message.IsFile)
+                    {
+                        if (message.FileType == FileType.Image)
+                        {
+                            <div class="image-container">
+                                <img src="@message.FilePath" alt="@message.FileName" class="chat-image" loading="lazy" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="document-container">
+                                <a href="@message.FilePath" target="_blank" class="document-link">
+                                    <i class="fa-solid fa-file-lines document-icon"></i>
+                                    <div class="file-name">@message.FileName</div>
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>@message.MessageText</p>
+                    }
+
+                    <div class="timestamp">
+                        @message.Date.ToString("HH:mm")
+                        <div style="color:gold; display:inline" onclick="@(message.IsFile ? $"starFileMessage('{message.Id}', this)" : $"starMessage('{message.Id}', this)")">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+<script>
+    function starMessage(chatid, starElement) {
+        const icon = starElement.querySelector("i");
+
+        fetch(`/Chat/ToggleStarMessage?messageId=${chatid}`, { //ajax
+            method: 'POST' 
+        })
+        .then(response => {
+            if (response.ok) {
+            } else {
+                console.error('Failed to toggle star');
+            }
+          window.location.reload();
+
+        })
+        .catch(error => console.error('Error toggling star:', error));
+    }
+        function starFileMessage(fileMessageId, starElement) {
+        const icon = starElement.querySelector("i");
+        fetch(`/Chat/ToggleStarFileMessage?messageId=${fileMessageId}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+            } else {
+                console.error('Failed to toggle star');
+            }
+            window.location.reload();
+        })
+        .catch(error => console.error('Error toggling star:', error));
+    }
+</script>

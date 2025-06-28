@@ -1,0 +1,103 @@
+﻿@using echoo.ViewModel;
+@model RegisterViewModel;
+@{
+    ViewData["Title"] = "Register Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=attach_file,bolt,groups,speech_to_text" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Promo" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+    </header>
+    <div class="container" style="margin-top: 2vh;">
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="input-wrap">
+                <label asp-for="FirstName">First name</label>
+                <input type="text" id="firstname" asp-for="FirstName" placeholder="Enter your first name" >
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="input-wrap">
+                <label asp-for="LastName">Last name</label>
+                <input type="text" id="lastname" asp-for="LastName" placeholder="Enter your last name" >
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="input-wrap">
+                <label asp-for="email">Email</label>
+                <input type="email" id="email" asp-for="email" placeholder="Enter your email" >
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="input-wrap">
+                <label asp-for="password">Password</label>
+                <input type="password" id="password" asp-for="password" placeholder="Enter your password" >
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            
+            <br>
+            <button class="pulse" type="submit">Register</button>
+        </form>
+    </div>
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <h2 id="popupMessage" style="color: green;"></h2>
+            <span style="cursor:pointer" id="closeBtn">&times;</span>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
+<script>
+
+    function showModal(message) {
+        const modal = document.getElementById('registerModal');
+        const messageSpan = document.getElementById('popupMessage');
+        if (messageSpan) {
+            messageSpan.textContent = message;
+        }
+        modal.style.display = 'block';
+    }
+
+
+    function closeModal() {
+        const modal = document.getElementById('registerModal');
+        modal.style.display = 'none';
+        window.location.href = '@Url.Action("Login", "Account")';
+    }
+
+
+    const closeBtn = document.getElementById('closeBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+</script>
+@if (TempData["ShowRegisterPopup"] != null && (bool)TempData["ShowRegisterPopup"])
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            showModal("@TempData["PopupMessage"]");
+        });
+    </script>
+}

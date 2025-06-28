@@ -1,0 +1,73 @@
+﻿@using echoo.ViewModel;
+@model LoginViewModel;
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=attach_file,bolt,groups,speech_to_text" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Promo" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 style="color:red; font-size:1.5rem; ">Access Denied</h2>
+        <p style="color:red;">You must be logged in to access the application.</p>
+        <form asp-action="Login" method="post" id="loginForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="input-wrap">
+                <label asp-for="email">Email</label>
+                <input style="padding-right: 40px"
+                       type="email"
+                       id="email"
+                       asp-for="email"
+                       placeholder="Enter your email"
+                       required />
+                <i class="fa-solid fa-envelope"></i>
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="input-wrap">
+                <label asp-for="password">Password</label>
+                <input style="padding-right: 40px"
+                       type="password"
+                       id="password"
+                       asp-for="password"
+                       placeholder="Enter your password"
+                       required />
+                <i class="fa-solid fa-lock"></i>
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <br />
+            <button class="pulse" type="submit">Login</button>
+        </form>
+        <br />
+        <a asp-controller="Account" asp-action="Register" id="already">Already not registered ?</a>
+    </div>
+
+</body>
+</html>
+

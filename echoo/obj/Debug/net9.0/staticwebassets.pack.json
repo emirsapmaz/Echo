@@ -1,0 +1,529 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\echoo.bundle.scp.css",
+      "PackagePath": "staticwebassets\\echoo.jvdgen5run.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\Default-group.png",
+      "PackagePath": "staticwebassets\\img\\Default-group.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\Default.jpg",
+      "PackagePath": "staticwebassets\\img\\Default.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\1fb884ff-fc81-43ea-ab72-6bc150d38467_car.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\1fb884ff-fc81-43ea-ab72-6bc150d38467_car.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\1fcddf6f-c68f-4ae7-a81a-9c488723643a_WhatsApp Image 2024-12-10 at 19.55.28.jpeg",
+      "PackagePath": "staticwebassets\\img\\groups\\1fcddf6f-c68f-4ae7-a81a-9c488723643a_WhatsApp Image 2024-12-10 at 19.55.28.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\273d47e1-da1a-45a5-99c3-9d03a554a506_car.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\273d47e1-da1a-45a5-99c3-9d03a554a506_car.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\50367503-fdb9-42c7-b187-27abac5de248.png",
+      "PackagePath": "staticwebassets\\img\\groups\\50367503-fdb9-42c7-b187-27abac5de248.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\5d623abc-f0c6-46e1-9571-4f2ea8da64b1_car.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\5d623abc-f0c6-46e1-9571-4f2ea8da64b1_car.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\77269f9d-9010-4055-9305-f2ce7063c165_fotogrup.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\77269f9d-9010-4055-9305-f2ce7063c165_fotogrup.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\b1931628-acb6-4ca4-b4b4-6ba120d981e8.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\b1931628-acb6-4ca4-b4b4-6ba120d981e8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\c0dbd662-e415-40ae-b725-d9cbcd36c441_mona.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\c0dbd662-e415-40ae-b725-d9cbcd36c441_mona.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\d6efdfd3-0662-4497-b9a4-97d3ccd85c8a_isik_mezuniyet-davetiye-2025-TR-EN_20250514_3_2.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\d6efdfd3-0662-4497-b9a4-97d3ccd85c8a_isik_mezuniyet-davetiye-2025-TR-EN_20250514_3_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\groups\\fb19496d-a30b-4e5d-9c67-fbe1d5e26452_mona.jpg",
+      "PackagePath": "staticwebassets\\img\\groups\\fb19496d-a30b-4e5d-9c67-fbe1d5e26452_mona.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\logo.png",
+      "PackagePath": "staticwebassets\\img\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\tree.jpg",
+      "PackagePath": "staticwebassets\\img\\tree.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\tree2.jpg",
+      "PackagePath": "staticwebassets\\img\\tree2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\tree3.jpg",
+      "PackagePath": "staticwebassets\\img\\tree3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\4b647766-30f0-47b5-a23b-1797b7953d2b.png",
+      "PackagePath": "staticwebassets\\img\\users\\4b647766-30f0-47b5-a23b-1797b7953d2b.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\5433dba7-2b86-4f3d-b765-66fa410370ce.png",
+      "PackagePath": "staticwebassets\\img\\users\\5433dba7-2b86-4f3d-b765-66fa410370ce.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\9e7da8ef-401a-4aa9-8028-11559cd826e4.jpg",
+      "PackagePath": "staticwebassets\\img\\users\\9e7da8ef-401a-4aa9-8028-11559cd826e4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\a848b53a-04c3-48ee-b825-46279de88a90.jpg",
+      "PackagePath": "staticwebassets\\img\\users\\a848b53a-04c3-48ee-b825-46279de88a90.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\b4c6af7b-f2bc-4953-aaa7-70330140fbd8.jpg",
+      "PackagePath": "staticwebassets\\img\\users\\b4c6af7b-f2bc-4953-aaa7-70330140fbd8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\b8817e0b-cc96-4d28-8ef5-ed11eb4c4391.jpg",
+      "PackagePath": "staticwebassets\\img\\users\\b8817e0b-cc96-4d28-8ef5-ed11eb4c4391.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\cd22e9bb-812c-42b9-9791-747a7e071fa8.jpg",
+      "PackagePath": "staticwebassets\\img\\users\\cd22e9bb-812c-42b9-9791-747a7e071fa8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\img\\users\\f262c571-21db-49f8-a08e-b31612908930.png",
+      "PackagePath": "staticwebassets\\img\\users\\f262c571-21db-49f8-a08e-b31612908930.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\js\\script.js",
+      "PackagePath": "staticwebassets\\js\\script.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\sounds\\sound.mp3",
+      "PackagePath": "staticwebassets\\sounds\\sound.mp3"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\1b875f15-da13-49f8-a040-4a448b0dd821.jpg",
+      "PackagePath": "staticwebassets\\uploads\\1b875f15-da13-49f8-a040-4a448b0dd821.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\1d3c862c-f6f1-47c7-8dce-45df7bbb7511.pdf",
+      "PackagePath": "staticwebassets\\uploads\\1d3c862c-f6f1-47c7-8dce-45df7bbb7511.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\2af5f823-7831-4e45-b7ff-92ce741f8f39.pdf",
+      "PackagePath": "staticwebassets\\uploads\\2af5f823-7831-4e45-b7ff-92ce741f8f39.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\31946545-0f3e-435a-816b-f95a1304a9b4.png",
+      "PackagePath": "staticwebassets\\uploads\\31946545-0f3e-435a-816b-f95a1304a9b4.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\3c7d7b4e-a665-45af-9a6f-6330c9265d62.pdf",
+      "PackagePath": "staticwebassets\\uploads\\3c7d7b4e-a665-45af-9a6f-6330c9265d62.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\471dceb4-3115-49ba-87f2-bc7e2d0e4975.jpg",
+      "PackagePath": "staticwebassets\\uploads\\471dceb4-3115-49ba-87f2-bc7e2d0e4975.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\5cf61ce1-9619-43d9-aa22-da6104096d4e.png",
+      "PackagePath": "staticwebassets\\uploads\\5cf61ce1-9619-43d9-aa22-da6104096d4e.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\5eeb063d-bbcb-4c27-981b-621b26ede05d.pdf",
+      "PackagePath": "staticwebassets\\uploads\\5eeb063d-bbcb-4c27-981b-621b26ede05d.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\65fcf476-9ae7-4079-9e7d-a695074f39f3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\65fcf476-9ae7-4079-9e7d-a695074f39f3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\7220b3b3-a06f-4bd2-8e45-2565eef56ca1.pdf",
+      "PackagePath": "staticwebassets\\uploads\\7220b3b3-a06f-4bd2-8e45-2565eef56ca1.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\727ebfc9-8271-4128-a977-cfd68194fa28.pdf",
+      "PackagePath": "staticwebassets\\uploads\\727ebfc9-8271-4128-a977-cfd68194fa28.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\899ee2be-bb69-4f41-b612-6f559f55e09d.pdf",
+      "PackagePath": "staticwebassets\\uploads\\899ee2be-bb69-4f41-b612-6f559f55e09d.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\8da88df2-fbc0-47d3-b1e5-c6c54256ce60.pdf",
+      "PackagePath": "staticwebassets\\uploads\\8da88df2-fbc0-47d3-b1e5-c6c54256ce60.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\8f773e10-24f6-4189-96bf-c29c296d8043.jpg",
+      "PackagePath": "staticwebassets\\uploads\\8f773e10-24f6-4189-96bf-c29c296d8043.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\909432a6-1d36-4bf3-bed5-15e01b4cd8e8.pdf",
+      "PackagePath": "staticwebassets\\uploads\\909432a6-1d36-4bf3-bed5-15e01b4cd8e8.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\985d940b-6c0e-4a7e-88d3-07f49c5bb166.txt",
+      "PackagePath": "staticwebassets\\uploads\\985d940b-6c0e-4a7e-88d3-07f49c5bb166.txt"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\9c6fa97c-42e6-4473-a073-436f9d69ffe8.pdf",
+      "PackagePath": "staticwebassets\\uploads\\9c6fa97c-42e6-4473-a073-436f9d69ffe8.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\a2951bd2-973a-4318-a58a-17b8c22f2017.pdf",
+      "PackagePath": "staticwebassets\\uploads\\a2951bd2-973a-4318-a58a-17b8c22f2017.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\a2f0fdf8-3bf0-4ec8-b4b5-ed8e41238dcc.png",
+      "PackagePath": "staticwebassets\\uploads\\a2f0fdf8-3bf0-4ec8-b4b5-ed8e41238dcc.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\a83122d3-df32-4ace-8d20-dac4dbcdf75a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\a83122d3-df32-4ace-8d20-dac4dbcdf75a.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\b1f9d8af-b1f7-4107-a7db-e35370854497.pdf",
+      "PackagePath": "staticwebassets\\uploads\\b1f9d8af-b1f7-4107-a7db-e35370854497.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\b28a335d-8a61-4cbf-9266-a3bf22494382.pdf",
+      "PackagePath": "staticwebassets\\uploads\\b28a335d-8a61-4cbf-9266-a3bf22494382.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\b4222f3a-1643-448e-a8e1-2e3d098c5c90.pdf",
+      "PackagePath": "staticwebassets\\uploads\\b4222f3a-1643-448e-a8e1-2e3d098c5c90.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\bd5760c4-4bca-48a6-b592-cccc5303894b.png",
+      "PackagePath": "staticwebassets\\uploads\\bd5760c4-4bca-48a6-b592-cccc5303894b.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\ccefe034-1fb1-44ca-a57d-693bb0ae3752.pdf",
+      "PackagePath": "staticwebassets\\uploads\\ccefe034-1fb1-44ca-a57d-693bb0ae3752.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\ce962296-6139-42a0-b4e9-dbbad4b88cee.png",
+      "PackagePath": "staticwebassets\\uploads\\ce962296-6139-42a0-b4e9-dbbad4b88cee.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\d16325ec-ba94-4e9a-a46d-b1edf1bdb574.txt",
+      "PackagePath": "staticwebassets\\uploads\\d16325ec-ba94-4e9a-a46d-b1edf1bdb574.txt"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\e1b8c0c1-7fac-401c-8014-846fca242f8f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\e1b8c0c1-7fac-401c-8014-846fca242f8f.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\e357dfe0-c4c0-4b41-9dc8-c83b3f0f6724.png",
+      "PackagePath": "staticwebassets\\uploads\\e357dfe0-c4c0-4b41-9dc8-c83b3f0f6724.png"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\e415d049-2d9c-4608-9cde-1807b5be9c96.pdf",
+      "PackagePath": "staticwebassets\\uploads\\e415d049-2d9c-4608-9cde-1807b5be9c96.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\e65767ac-ed5c-45a8-bc76-54ca23ad2852.jpg",
+      "PackagePath": "staticwebassets\\uploads\\e65767ac-ed5c-45a8-bc76-54ca23ad2852.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\eb267235-ae97-4a18-a3cd-4303ea10e398.pdf",
+      "PackagePath": "staticwebassets\\uploads\\eb267235-ae97-4a18-a3cd-4303ea10e398.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\ec4eaee8-998a-4d69-bf35-a4b8f5437a82.pdf",
+      "PackagePath": "staticwebassets\\uploads\\ec4eaee8-998a-4d69-bf35-a4b8f5437a82.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\ecce5cdb-6d50-4c8e-85a4-3d3c63e65c13.pdf",
+      "PackagePath": "staticwebassets\\uploads\\ecce5cdb-6d50-4c8e-85a4-3d3c63e65c13.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\ee1f7624-86d2-4973-a628-74a3a3ccdf31.jpg",
+      "PackagePath": "staticwebassets\\uploads\\ee1f7624-86d2-4973-a628-74a3a3ccdf31.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\f112d788-41e3-440a-826a-350a605ab5b8.pdf",
+      "PackagePath": "staticwebassets\\uploads\\f112d788-41e3-440a-826a-350a605ab5b8.pdf"
+    },
+    {
+      "Id": "C:\\Users\\asus\\source\\repos\\echoo\\echoo\\wwwroot\\uploads\\f7999ec4-0f95-4731-9c75-f965ea9abdf6.pdf",
+      "PackagePath": "staticwebassets\\uploads\\f7999ec4-0f95-4731-9c75-f965ea9abdf6.pdf"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.echoo.props",
+      "PackagePath": "build\\echoo.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.echoo.props",
+      "PackagePath": "buildMultiTargeting\\echoo.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.echoo.props",
+      "PackagePath": "buildTransitive\\echoo.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.echoo.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.echoo.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

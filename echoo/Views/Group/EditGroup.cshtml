@@ -1,0 +1,476 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Edit Group Page";
+    Layout = null;
+    var contacts = ViewBag.Contacts;
+    var user = await userManager.GetUserAsync(User);
+
+}
+@model echoo.ViewModel.EditGroupViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Emir Sapmaz" />
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <style>
+        body {
+            overflow: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit,logout" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@user.FirstName @user.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div>
+        <form asp-action="EditGroup" asp-controller="Group" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="group-creation-container">
+                <div class="group-info-section">
+                    <div class="g-left">
+                        <div class="group-photo-upload">
+                            <div class="group-photo-preview">
+                                @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+                                {
+                                    <img src="@Model.ProfilePicturePath" alt="Group Photo" />
+                                }
+                            </div>
+                            <label for="group-photo-input" class="upload-btn">
+                                <i class="fa-solid fa-camera"></i> Upload Photo
+                            </label>
+                            <input type="file" id="group-photo-input" name="Photo" accept="image/*" style="display: none;">
+                        </div>
+
+                        <div class="group-name-input">
+                            <label for="GroupName">Group Name:</label>
+                            <input type="text" id="GroupName" name="Name" value="@Model.Name" placeholder="Enter group name" class="addmembers">
+                        </div>
+                        </div>
+                            @if (Model.CreatedByUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                            {
+                                <div class="delete-group-section">
+                                    <a class="upload-btn delbtn" href="javascript:void(0);" onclick="deleteGroup(@Model.Id)">
+                                <i class="fa-solid fa-trash"></i> <span style="font-size:0.7rem;">Delete Group</span>
+                                    </a>
+                                </div>
+                            }
+                </div>
+
+                <div class="group-members-section">
+                    <h3>Edit Members</h3>
+
+                    <div class="search-contacts">
+                        <input type="text" id="contact-search" placeholder="Search contacts..." class="addmembers">
+                        <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+                    </div>
+
+                <div class="contacts-list">
+                    @foreach (var contact in ViewBag.Contacts)
+                    {
+                        <div class="contact-item">
+                            <div class="contact-info">
+                                <img src="@((string.IsNullOrEmpty(@contact.ProfilePicturePath) || @contact.ProfilePicturePath == "/img/Default.jpg") ? "/img/Default.jpg" : @contact.ProfilePicturePath)" alt="Profile Picture">
+                                <span>@contact.FirstName @contact.LastName</span>
+                            </div>
+                            <button type="button" class="add-member-btn" data-id="@contact.Id" data-name="@contact.FirstName @contact.LastName" data-pic="@(!string.IsNullOrEmpty(@contact.ProfilePicturePath) ? @contact.ProfilePicturePath : "/img/Default.jpg")">
+                                    <i class="fa-solid fa-plus"></i> Add
+                                </button>
+                        </div>
+                    }
+                </div>
+
+                    <div class="selected-members">
+                        <h3 style="display:inline">Selected Members </h3><span id="member-count">(@Model.SelectedMemberIds.Count/100)</span>
+                        <div id="selected-members-list">
+                            @if (Model.Members.Count == 0)
+                            {
+                                <div class="no-members-message">No members selected yet</div>
+                            }
+                            else
+                            {
+                                @foreach (var member in Model.Members)
+                                {
+                                        <div class="selected-member">
+                                            <div class="member-info">
+                                        <img src="@((string.IsNullOrEmpty(member.User.ProfilePicturePath) || member.User.ProfilePicturePath == "/img/Default.jpg") ? "/img/Default.jpg" : member.User.ProfilePicturePath)" alt="Profile Picture">
+                                        <span>@member.User.FirstName @member.User.LastName</span>
+                                            </div>
+
+                                            <button type="button" class="remove-member-btn" data-id="@member.UserId">
+                                                <i class="fa-solid fa-times"></i>
+                                            </button>
+                                        </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="create-group-actions">
+                    <button type="submit" class="primary-btn">Save</button>
+                    <a asp-action="GroupDetails" asp-controller="Group" asp-route-groupId="@Model.Id" class="secondary-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span style="cursor:pointer" class="close">&times;</span>
+            <div class="success-message">
+                <i class="fa-solid fa-check-circle"></i>
+                <p>Group created successfully!</p>
+            </div>
+            <button id="goto-group-btn">Go to Group Chat</button>
+        </div>
+    </div>
+    <div id="error-modal" class="modal">
+        <div class="modal-content error-modal-content">
+        <span style="cursor:pointer" class="close">&times;</span>
+            <div class="error-message">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                <p id="error-text">Error message will appear here</p>
+            </div>
+            <button id="error-ok-btn">OK</button>
+        </div>
+    </div>
+    <script>
+                document.addEventListener('DOMContentLoaded', function () {
+        let selectedMembers = [];
+
+        // initialize with existing members
+    @foreach (var member in Model.Members)
+    {
+        @:selectedMembers.push({
+        @:id: "@member.UserId",
+        @:name: "@(member.User.FirstName + " " + member.User.LastName)",
+        @:pic: "@(string.IsNullOrEmpty(member.User.ProfilePicturePath) ? "/img/Default.jpg" : member.User.ProfilePicturePath)"
+        @:});
+    }
+
+        const contactSearchInput = document.getElementById('contact-search');
+        const contactsList = document.querySelector('.contacts-list');
+        const selectedMembersList = document.getElementById('selected-members-list');
+        const memberIdsContainer = document.createElement('div');
+        memberIdsContainer.id = 'member-ids-container';
+        document.querySelector('form').appendChild(memberIdsContainer);
+
+        const photoInput = document.getElementById('group-photo-input');
+        const photoPreview = document.querySelector('.group-photo-preview');
+        const groupNameInput = document.getElementById('GroupName');
+        const successModal = document.getElementById('success-modal');
+        const errorModal = document.getElementById('error-modal');
+        const errorText = document.getElementById('error-text');
+        const errorOkBtn = document.getElementById('error-ok-btn');
+        const closeBtn = document.querySelector('.close');
+        const gotoGroupBtn = document.getElementById('goto-group-btn');
+        const memberCountSpan = document.getElementById('member-count');
+
+        function showErrorModal(message) {
+            errorText.textContent = message;
+            errorModal.style.display = 'block';
+        }
+
+        errorOkBtn.addEventListener('click', function () {
+            errorModal.style.display = 'none';
+        });
+
+    document.querySelectorAll('.close').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const modal = this.closest('.modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+
+        gotoGroupBtn.addEventListener('click', function() {
+            window.location.href = `/Home/Main`;
+        });
+
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoPreview.innerHTML = `<img src="${e.target.result}" alt="Group Photo" />`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        contactSearchInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const contactItems = contactsList.querySelectorAll('.contact-item');
+
+            contactItems.forEach(item => {
+                const name = item.querySelector('span').textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        document.querySelectorAll('.add-member-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const pic = this.getAttribute('data-pic');
+                addMember({ id, name, pic });
+            });
+        });
+
+        document.querySelectorAll('.remove-member-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                removeMember(id);
+            });
+        });
+
+        function addMember(member) {
+            if (!selectedMembers.some(m => m.id === member.id)) {
+                selectedMembers.push(member);
+                updateSelectedMembersList();
+
+                const contactItem = document.querySelector(`.add-member-btn[data-id="${member.id}"]`).closest('.contact-item');
+                if (contactItem) {
+                    contactItem.style.display = 'none';
+                }
+            }
+        }
+
+        // Remove member
+// Remove member
+    // Remove member
+    function removeMember(memberId) {
+        // find the member in the array
+        const memberToRemove = selectedMembers.find(m => m.id === memberId);
+        // remove from the array
+        selectedMembers = selectedMembers.filter(member => member.id !== memberId);
+        updateSelectedMembersList();
+
+        const contactItem = document.querySelector(`.add-member-btn[data-id="${memberId}"]`);
+        if (contactItem && contactItem.closest('.contact-item')) {
+            contactItem.closest('.contact-item').style.display = 'flex';
+                } else if (memberToRemove) {//create a new contact item
+            const contactElement = document.createElement('div');
+            contactElement.className = 'contact-item';
+            contactElement.innerHTML = `
+                <div class="contact-info">
+                    <img src="${memberToRemove.pic || '/img/Default.jpg'}" alt="${memberToRemove.name}">
+                    <span>${memberToRemove.name}</span>
+                </div>
+                <button type="button" class="add-member-btn" data-id="${memberToRemove.id}" data-name="${memberToRemove.name}" data-pic="${memberToRemove.pic || '/img/Default.jpg'}">
+                    <i class="fa-solid fa-plus"></i> Add
+                </button>
+            `;
+            contactsList.appendChild(contactElement);
+
+            contactElement.querySelector('.add-member-btn').addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const pic = this.getAttribute('data-pic');
+                addMember({ id, name, pic });
+            });
+        }
+    }
+
+        function updateSelectedMembersList() {
+            if (selectedMembers.length === 0) {
+                selectedMembersList.innerHTML = '<div class="no-members-message">No members selected yet</div>';
+                return;
+            }
+
+            selectedMembersList.innerHTML = '';
+
+            selectedMembers.forEach(member => {
+                const memberElement = document.createElement('div');
+                memberElement.className = 'selected-member';
+                memberElement.innerHTML = `
+                    <div class="member-info">
+                        <img src="${member.pic || '/img/Default.jpg'}" alt="${member.name}">
+                        <span>${member.name}</span>
+                    </div>
+                    <button type="button" class="remove-member-btn" data-id="${member.id}">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                `;
+             memberCountSpan.textContent = `(${selectedMembers.length}/100)`;
+
+                selectedMembersList.appendChild(memberElement);
+
+                memberElement.querySelector('.remove-member-btn').addEventListener('click', function() {
+                    removeMember(member.id);
+                });
+            });
+
+            updateMemberIdsInputs();
+        }
+
+        function updateMemberIdsInputs() {
+            memberIdsContainer.innerHTML = '';
+            selectedMembers.forEach((member, index) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = `SelectedMemberIds[${index}]`;
+                input.value = member.id;
+                memberIdsContainer.appendChild(input);
+            });
+        }
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault(); 
+
+            const groupName = groupNameInput.value.trim();
+
+            if (!groupName) {
+                showErrorModal('Please enter a group name');
+                return;
+            }
+
+            if (selectedMembers.length === 0) {
+                showErrorModal('Please select at least one member for the group');
+                return;
+            }
+
+
+            updateMemberIdsInputs();
+
+            const formData = new FormData(this);
+
+                fetch('/Group/EditGroup', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('.success-message p').textContent = 'Group updated successfully!';
+                    successModal.style.display = 'block';
+                } else {
+                    showErrorModal(data.message || 'Failed to update group.');
+                }
+            })
+            .catch(error => {
+                showErrorModal('Error: ' + error.message);
+            });
+        });
+
+        updateSelectedMembersList();
+    });
+
+
+    function deleteGroup(groupId) {
+        const successModal = document.getElementById('success-modal');
+        const errorModal = document.getElementById('error-modal');
+        const errorText = document.getElementById('error-text');
+
+        errorText.textContent = 'Are you sure you want to delete this group? This action cannot be undone.';
+
+        const errorOkBtn = document.getElementById('error-ok-btn');
+        const originalBtnText = errorOkBtn.textContent;
+        errorOkBtn.textContent = 'Delete Group';
+
+        const originalClickHandler = errorOkBtn.onclick;
+
+        errorOkBtn.onclick = function() {
+            errorModal.style.display = 'none';
+
+            errorOkBtn.textContent = originalBtnText;
+            errorOkBtn.onclick = originalClickHandler;
+
+            fetch(`/Group/DeleteGroup/${groupId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('.success-message p').textContent = 'Group deleted successfully!';
+
+                    const gotoGroupBtn = document.getElementById('goto-group-btn');
+                    gotoGroupBtn.textContent = 'Go to Home';
+                    gotoGroupBtn.onclick = function() {
+                        window.location.href = '/Home/Main';
+                    };
+
+                    successModal.style.display = 'block';
+                } else {
+                    errorText.textContent = data.message || 'Failed to delete group';
+                    errorOkBtn.textContent = originalBtnText;
+                    errorOkBtn.onclick = originalClickHandler;
+                    errorModal.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorText.textContent = 'An error occurred while deleting the group';
+                errorOkBtn.textContent = originalBtnText;
+                errorOkBtn.onclick = originalClickHandler;
+                errorModal.style.display = 'block';
+            });
+        };
+
+        errorModal.style.display = 'block';
+    }
+    </script>
+
+</body>
+</html>

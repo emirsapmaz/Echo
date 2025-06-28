@@ -1,0 +1,149 @@
+﻿@model echoo.ViewModel.addContactViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+@{
+    ViewData["Title"] = "Contact Page";
+    Layout = null;
+    var userr = await userManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle,edit,logout" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@userr.FirstName @userr.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flexx">
+        <h1>Add Contact</h1>
+
+        <div class="search-container cc">
+            <form asp-action="AddContact" method="post" id="addcc">
+                <div class="input-wrap">
+                    <input type="email"
+                           id="email"
+                           asp-for="Email"
+                           placeholder="Enter your friend's email"
+                           required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <button class="pulse" type="submit">Add Contact</button>
+            </form>
+        </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <hr class="hrr">
+        <h2 style="font-style: italic;">You may know,</h2>
+        <div class="userList fiq">
+            @if (Model.SuggestedContacts.Any())
+            {
+                foreach (var user in Model.SuggestedContacts)
+                {
+                    <div class="user">
+                        <div style="display: flex; align-items: center;">
+                            <div class="picture">
+                                <img src="/img/Default.jpg" alt="User Picture">
+                            </div>
+                            <div class="username">
+                                <p>@user.UserName</p>
+                            </div>
+                        </div>
+                        <form asp-action="AddContact" method="post" style="display:inline;">
+                            <input type="hidden" name="Email" value="@user.Email" />
+                            <button type="submit" class="material-symbols-outlined forum" title="Add">
+                                add_circle
+                            </button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No suggestions for now. Add more contacts to get recommendations!</p>
+            }
+        </div>
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <h2 id="popupMessage" style="color: green;"></h2>
+                <span style="cursor:pointer" id="closeBtn">&times;</span>
+
+            </div>
+        </div>
+
+</body>
+</html>
+<script>
+
+    function showModal(message) {
+        const modal = document.getElementById('registerModal');
+        const messageSpan = document.getElementById('popupMessage');
+        if (messageSpan) {
+            messageSpan.textContent = message;
+        }
+        modal.style.display = 'block';
+    }
+
+
+    function closeModal() {
+        const modal = document.getElementById('registerModal');
+        modal.style.display = 'none';
+    }
+
+
+    const closeBtn = document.getElementById('closeBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+</script>
+@if (TempData["ShowRegisterPopup"] != null && (bool)TempData["ShowRegisterPopup"])
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            showModal("@TempData["PopupMessage"]");
+        });
+    </script>
+}

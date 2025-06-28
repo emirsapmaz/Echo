@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using echoo.Models
+@model echoo.ViewModel.EditProfileViewModel
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Profile Page";
+    var user = await UserManager.GetUserAsync(User);
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Echo</title>
+    <meta name="author" content="Emir Sapmaz" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <script defer src="~/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle,edit,logout" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <nav class="navbar">
+        <div class="logoo">
+            <a class="logoo" asp-action="Main" asp-controller="Home"><img src="/img/logo.png" alt=""></img><p>Echo</p></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-right" id="navRight">
+            <div class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa-regular fa-circle-user"></i>
+                    <a asp-action="myProfile" asp-controller="Account">@user.FirstName @user.LastName</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-message"></i>
+                    <a asp-action="Main" asp-controller="Home">Chats</a>
+                </li>
+                <li>
+                    <i class="fa-regular fa-address-book"></i>
+                    <a asp-action="ContactList" asp-controller="Account">My Contacts</a>
+                </li>
+                <li id="logout">
+                    <i id="logoutt" class="material-symbols-outlined googleicon">
+                        logout
+                    </i>
+                    <a asp-action="Logout" asp-controller="Account">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flex">
+        <div class="pp">
+            <img src="@(string.IsNullOrEmpty(@Model.ProfilePicturePath) || @Model.ProfilePicturePath == "/img/Default.jpg" ? "/img/Default.jpg" : @Model.ProfilePicturePath)" alt="Profile Picture" />
+            @if (UserManager.GetUserId(User) == Model.Id){
+            <a id="tt" onclick="toggleEditMode()" class="material-symbols-outlined ppp">
+                edit
+            </a>
+            }
+        </div>
+
+        <!-- DISPLAY MODE -->
+        <div id="profileDisplay" class="about">
+            <h1>Name</h1>
+            <div style="display: flex; margin-bottom: 50px ;">
+                <p style="margin-right: 15px;">@Model.FirstName @Model.LastName</p>
+                @if (UserManager.GetUserId(User) == Model.Id)
+                {
+                    <a onclick="toggleEditMode()" class="material-symbols-outlined pppp">
+                        edit
+                    </a>
+                }
+            </div>
+            <h1>About</h1>
+            <div style="display: flex;">
+                <p style="margin-right: 15px;">@Model.About</p>
+                @if (UserManager.GetUserId(User) == Model.Id)
+                {
+                    <a onclick="toggleEditMode()" class="material-symbols-outlined pppp">
+                        edit
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="getProfileAdd">
+            @if (UserManager.GetUserId(User) != Model.Id)
+            {
+                <h3>Add to your contact</h3>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-action="AddContact" method="post" style="display:inline;">
+                    <input type="hidden" name="Email" value="@Model.email" />
+                    <input type="hidden" name="FriendId" value="@Model.Id" />
+                    <input type="hidden" name="returnUrl" value="GetProfile" />
+                    <button type="submit" class="material-symbols-outlined forum" title="Add">
+                        add_circle
+                    </button>
+                </form>
+            }
+        </div>
+
+        <!-- EDIT MODE -->
+        <form  id="profileEditForm" asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data" style="display:none;">
+            <div class="about">
+                <label>First Name:</label>
+                <input type="text" name="FirstName" value="@Model.FirstName" />
+                <label>Last Name:</label>
+                <input type="text" name="LastName" value="@Model.LastName" />
+                <label>About:</label>
+                <input type="text" name="About" value="@Model.About" />
+                <label>Change Picture:</label>
+                <input type="file" name="ProfilePicture" accept=".jpg,.jpeg,.png" />
+                <br />
+                <button type="submit">Save Changes</button>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function toggleEditMode() {
+        document.getElementById("profileDisplay").style.display = "none";
+        document.getElementById("tt").style.display = "none";
+        document.getElementById("profileEditForm").style.display = "block";
+    }
+</script>
